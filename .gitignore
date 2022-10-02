@@ -139,4 +139,5 @@ checks.json
 
 # secrets
 .secrets.toml
+secrets.toml
 chicago-crime-dev-case-bfc397ebc8e4.json
