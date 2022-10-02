@@ -1,7 +1,21 @@
 version: '3.9'
 
 services:
+  streamlit-app:
+    container_name: myapp
+    build:
+      context: .
+      dockerfile: streamlit/Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app/
+    networks:
+      - chicago-crime-dev-case_chicago-crime
+    depends_on:
+      - app
   app:
+    container_name: myapi
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -12,6 +26,8 @@ services:
       - chicago_crime_dev_case_DB__connect_args={}
     volumes:
       - .:/home/app/web
+    networks:
+      - chicago-crime-dev-case_chicago-crime
     depends_on:
       - db
   db:
@@ -25,3 +41,6 @@ services:
       - POSTGRES_DBS=chicago_crime_dev_case, chicago_crime_dev_case_test
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+networks:
+  chicago-crime-dev-case_chicago-crime:
+  

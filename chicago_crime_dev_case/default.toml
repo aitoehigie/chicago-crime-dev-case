@@ -1,4 +1,5 @@
 [default]
+GOOGLE_APPLICATION_CREDENTIALS = "chicago-crime-dev-case-bfc397ebc8e4.json"
 
 [default.security]
 # Set secret key in .secrets.toml
