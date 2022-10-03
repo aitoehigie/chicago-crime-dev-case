@@ -42,11 +42,14 @@ def async_ttl_cache(ttl: int = 3600, maxsize: int = 1):
 
 @router.get("/", response_model=List[CrimeResponse])
 @async_ttl_cache()
-async def chicago_crimes(*, session: Session = ActiveSession):
-    QUERY = ('SELECT * FROM `bigquery-public-data.chicago_crime.crime`'
-             'LIMIT 100'
-    )
-    query_job = client.query(QUERY)
+async def chicago_crimes(crime_committed_start_date = None, crime_committed_end_date = None, crime_committed_type_filter = None):
+    query = f"""
+                SELECT * 
+                FROM `bigquery-public-data.chicago_crime.crime`
+                WHERE primary_type={crime_committed_type_filter!r} AND (date BETWEEN {crime_committed_start_date!r} AND {crime_committed_end_date!r})
+                LIMIT 100
+    """
+    query_job = client.query(query)
     query_result = query_job.result()
     df = query_result.to_dataframe()
     df = df.dropna()
