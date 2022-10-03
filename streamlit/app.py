@@ -35,11 +35,6 @@ def generate_url():
 def load_data():
     return pd.read_json(generate_url())
 
-
-# format date input
-#start = crime_committed_start_date.strftime('%Y-%m-%dT%H:%M:%S%Z')
-#end = crime_committed_end_date.strftime('%Y-%m-%dT%H:%M:%S%Z')
-
 # Read in the data
 data_load_state = st.text('Loading data...')
 data = load_data()
@@ -49,9 +44,6 @@ df = pd.DataFrame(data, columns=["latitude", "longitude", "date", "primary_type"
 
 # Empty map container
 placeholder = st.map()
-
-#df = df[df["primary_type"] == crime_committed_type_filter]
-#df = df[df["date"] == crime_committed_date_filter]
 
 with placeholder.container():
     st.map(df)
