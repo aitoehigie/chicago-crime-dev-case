@@ -12,11 +12,13 @@ DATE_COLUMN = 'date'
 BASE_URL = "http://myapi:8000/chicago_crimes/"
 
 st.title("Welcome to the Real-Time Chicago Crime Dashboard!")
+st.sidebar.title("Filter by Date of Crime/Crime Type")
+st.sidebar.markdown("Select the filters accordingly:")
 
 # Filter fields
-crime_committed_start_date = st.date_input("Start Date", value=pd.to_datetime("2005-01-31 06:00:00+00:00", format='%Y-%m-%dT%H:%M:%S%Z'))
-crime_committed_end_date = st.date_input("End Date", value=pd.to_datetime("2021-01-31 06:00:00+00:00", format='%Y-%m-%dT%H:%M:%S%Z'))
-crime_committed_type_filter = st.selectbox("Select the Crime Type", ("HOMICIDE", "CRIMINAL SEXUAL ASSAULT",
+crime_committed_start_date = st.sidebar.date_input("Start Date", value=pd.to_datetime("2005-01-31 06:00:00+00:00", format='%Y-%m-%dT%H:%M:%S%Z'))
+crime_committed_end_date = st.sidebar.date_input("End Date", value=pd.to_datetime("2021-01-31 06:00:00+00:00", format='%Y-%m-%dT%H:%M:%S%Z'))
+crime_committed_type_filter = st.sidebar.selectbox("Select the Crime Type", ("HOMICIDE", "CRIMINAL SEXUAL ASSAULT",
                                                                      "CRIM SEXUAL ASSAULT", "ROBBERY",
                                                                      "PUBLIC PEACE VIOLATION",
                                                                      "DECEPTIVE PRACTICE", 
@@ -48,6 +50,4 @@ placeholder = st.map()
 
 with placeholder.container():
     st.map(df)
-    st.sidebar.title("Filter by Date of Crime/Crime Type")
-    st.sidebar.markdown("Select the filters accordingly:")
     
