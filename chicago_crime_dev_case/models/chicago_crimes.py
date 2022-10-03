@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import unique
 from typing import TYPE_CHECKING, List, Optional, Union, Any, Tuple
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, Field, Extra, validator
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
@@ -26,12 +26,12 @@ class Crime(SQLModel, table=True):
     ward: int = None
     community_area: int = None
     fbi_code: str = None
-    x_coordinate: float = 0.00
-    y_coordinate: float = 0.00
+    x_coordinate: float = None
+    y_coordinate: float = None
     year: int = None
     updated_on: datetime
-    latitude: float = 0.00
-    longitude: float = 0.00
+    latitude: float = 0.0
+    longitude: float = 0.0
     location: str = None
 
 
@@ -53,14 +53,28 @@ class CrimeResponse(BaseModel):
     ward: int = None
     community_area: int = None
     fbi_code: str = None
-    x_coordinate: float = 0.00
-    y_coordinate: float = 0.00
+    x_coordinate: float = None
+    y_coordinate: float = None
     year: int = None
     updated_on: datetime
-    latitude: float = 0.00
-    longitude: float = 0.00
+    latitude: float = None
+    longitude: float = None
     location: str = None
-
+    
+    class Config:
+        validate_assignment = True
+    
+    @validator('latitude')
+    def latitude_must_be_type_float(cls, latitude):
+        if isinstance(latitude, float):
+            return latitude
+        return float(0)
+    
+    @validator('longitude')
+    def longitude_must_be_type_float(cls, longitude):
+        if isinstance(longitude, float):
+            return longitude
+        return float(0)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -84,15 +98,28 @@ class CrimeIncoming(BaseModel):
     ward: int = None
     community_area: int = None
     fbi_code: str = None
-    x_coordinate: float = 0.00
-    y_coordinate: float = 0.00
+    x_coordinate: float = None
+    y_coordinate: float = None
     year: int = None
     updated_on: datetime
-    latitude: float = 0.00
-    longitude: float = 0.00
+    latitude: float = None
+    longitude: float = None
     location: str = None
-
     
+    class Config:
+        validate_assignment = True
+    
+    @validator('latitude')
+    def latitude_must_be_type_float(cls, latitude):
+        if isinstance(latitude, float):
+            return latitude
+        return float(0)
+    
+    @validator('longitude')
+    def longitude_must_be_type_float(cls, longitude):
+        if isinstance(longitude, float):
+            return longitude
+        return float(0)    
     class Config:
         extra = Extra.allow
         arbitrary_types_allowed = True

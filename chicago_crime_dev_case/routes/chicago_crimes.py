@@ -49,6 +49,6 @@ async def chicago_crimes(*, session: Session = ActiveSession):
     query_job = client.query(QUERY)
     query_result = query_job.result()
     df = query_result.to_dataframe()
+    df = df.dropna()
     crime_data = json.loads(df.to_json(orient = "records"))
     return crime_data
-

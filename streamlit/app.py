@@ -9,7 +9,6 @@ import numpy as np
 
 dataset_url = "http://myapi:8000/chicago_crimes/"
 
-@st.experimental_memo
 def get_data():
     return pd.read_json(dataset_url)
 
